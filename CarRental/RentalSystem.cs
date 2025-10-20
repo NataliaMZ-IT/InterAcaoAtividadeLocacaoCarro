@@ -242,7 +242,7 @@ namespace CarRental
 
         public void ShowList(List<Rental> list)
         {
-            Console.WriteLine("----------List of Vehicles----------");
+            Console.WriteLine("----------List of Rentals----------");
             foreach (var item in list)
             {
                 item.ShowRental();

@@ -21,6 +21,10 @@ namespace CarRental
         {
             Make = make;
         }
+        public string GetMake()
+        {
+            return Make;
+        }
         public void SetModel(string model)
         {
             Model = model;

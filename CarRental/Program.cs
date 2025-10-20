@@ -4,8 +4,6 @@ using CarRental;
 RentalSystem system = new RentalSystem();
 
 int op, aux;
-Person client;
-Vehicle vehicle;
 do
 {
     Console.WriteLine("\n------------------------------------");

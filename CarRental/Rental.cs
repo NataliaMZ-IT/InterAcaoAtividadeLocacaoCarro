@@ -26,17 +26,18 @@ namespace CarRental
 
         public void ShowRental()
         {
-            Console.WriteLine("---------------------------------------------------------------");
+            Console.WriteLine("===============================================================");
             Console.WriteLine($"Client: {this.Client.GetName()}");
-            Console.WriteLine($"Vehicle: {this.Vehicle.GetModel()} | License Plate: {this.Vehicle.GetLicensePlate()}");
+            Console.WriteLine($"Vehicle: {this.Vehicle.GetMake()} {this.Vehicle.GetModel()}| License Plate: {this.Vehicle.GetLicensePlate()}");
             Console.WriteLine($"Hours: {this.Hours}");
             Console.WriteLine($"Total Cost: ${CalculateTotalCost():F2}");
             Console.WriteLine("---------------------------------------------------------------");
             Console.WriteLine("\t\t\tDetails");
-            Console.WriteLine("- Client");
+            Console.WriteLine("\tClient");
             this.Client.ShowPerson();
-            Console.WriteLine("- Vehicle");
+            Console.WriteLine("\n\tVehicle");
             this.Vehicle.ShowVehicle();
+            Console.WriteLine("===============================================================");
         }
     }
 }
