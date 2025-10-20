@@ -11,9 +11,10 @@ do
         "\n1 - Register Client" +
         "\n2 - Register Vehicle" +
         "\n3 - Rent a Vehicle" +
-        "\n4 - Show All Clients" +
-        "\n5 - Show All Vehicles" +
-        "\n6 - Show All Rental Contracts" +
+        "\n4 - Return a Vehicle" +
+        "\n5 - Show All Clients" +
+        "\n6 - Show All Vehicles" +
+        "\n7 - Show All Rental Contracts" +
         "\n0 - Exit");
     Console.WriteLine("------------------------------------");
     op = int.Parse(Console.ReadLine()!);
@@ -38,12 +39,15 @@ do
             system.AddRental();
             break;
         case 4:
-            system.ShowList(system.Clients);
+            system.RemoveRental();
             break;
         case 5:
-            system.ShowList(system.Vehicles);
+            system.ShowList(system.Clients);
             break;
         case 6:
+            system.ShowList(system.Vehicles);
+            break;
+        case 7:
             system.ShowList(system.Rentals);
             break;
         default:

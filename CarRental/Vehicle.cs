@@ -64,6 +64,11 @@ namespace CarRental
             this.IsRented = true;
         }
 
+        public void Return()
+        {
+            this.IsRented = false;
+        }
+
         public virtual void ShowVehicle()
         {
             Console.WriteLine($"Vehicle: {Make} {Model} {Year}");

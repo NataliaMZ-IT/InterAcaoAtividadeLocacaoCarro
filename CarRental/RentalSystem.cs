@@ -21,13 +21,27 @@ namespace CarRental
             Rentals = new List<Rental>();
         }
 
-        public void RentVehicle(Vehicle vehicle)
+        private void RentVehicle(Vehicle vehicle)
         {
             int index = Vehicles.FindIndex(v => v == vehicle);
 
             if (index != -1)
             {
                 Vehicles[index].Rent();
+            }
+            else
+            {
+                Console.WriteLine("\nUnknown error has ocurred.");
+            }
+        }
+
+        private void ReturnVehicle(Vehicle vehicle)
+        {
+            int index = Vehicles.FindIndex(v => v == vehicle);
+
+            if (index != -1)
+            {
+                Vehicles[index].Return();
             }
             else
             {
@@ -194,14 +208,10 @@ namespace CarRental
 
         public void AddRental()
         {
-            Console.Write("Insert the CPF or CNPJ of the client: ");
-            string clientID = Console.ReadLine()!;
-            Console.Write("Insert the license plate of the desired vehicle: ");
-            string vehicleID = Console.ReadLine()!;
-
-            if (VerifyClient(clientID) & VerifyVehicle(vehicleID))
+            Person client = RetrieveClient();
+            Vehicle vehicle = RetrieveVehicle();
+            if (client != null && vehicle != null)
             {
-                Vehicle vehicle = Vehicles.Find(v => v.GetLicensePlate() == vehicleID)!;
                 if (vehicle.IsRented)
                 {
                     Console.WriteLine("Vehicle is already being rented out!");
@@ -210,10 +220,70 @@ namespace CarRental
                 {
                     Console.Write("Insert the amount of time (in hours) the vehicle will be rented for: ");
                     int hours = int.Parse(Console.ReadLine()!);
-                    Person client = Clients.Find(c => c.GetId() == clientID)!;
                     Rentals.Add(new Rental(client, vehicle, hours));
 
                     RentVehicle(vehicle);
+                }
+            }
+        }
+        #endregion
+
+        #region Retrieve Objects
+        private Person RetrieveClient()
+        {
+            Console.Write("Insert the CPF or CNPJ of the client: ");
+            string clientID = Console.ReadLine()!;
+
+            if (VerifyClient(clientID))
+            {
+                return Clients.Find(c => c.GetId() == clientID)!;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private Vehicle RetrieveVehicle()
+        {
+            Console.Write("Insert the license plate of the desired vehicle: ");
+            string vehicleID = Console.ReadLine()!;
+
+            if (VerifyVehicle(vehicleID))
+            {
+                return Vehicles.Find(v => v.GetLicensePlate() == vehicleID)!;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        #endregion
+
+        #region Remove Objects
+        public void RemoveRental()
+        {
+            Person client = RetrieveClient();
+            Vehicle vehicle = RetrieveVehicle();
+            if (client != null && vehicle != null)
+            {
+                if (vehicle.IsRented)
+                {
+                    Rental rental = Rentals.Find(v => v.Client == client && v.Vehicle == vehicle)!;
+                    if (rental != null)
+                    {
+                        Rentals.Remove(rental);
+                        ReturnVehicle(vehicle);
+                        Console.WriteLine("\nVehicle returned!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Rental contract not found!");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Vehicle is not rented out!");
                 }
             }
         }
@@ -242,7 +312,7 @@ namespace CarRental
 
         public void ShowList(List<Rental> list)
         {
-            Console.WriteLine("----------List of Rentals----------");
+            Console.WriteLine("\t\t----------List of Rentals----------");
             foreach (var item in list)
             {
                 item.ShowRental();
