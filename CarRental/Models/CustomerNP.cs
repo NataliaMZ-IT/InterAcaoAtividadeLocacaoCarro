@@ -34,7 +34,7 @@ namespace CarRental.Models
 
         public override string ToString()
         {
-            return $"{base.ToString()}\nCNH: {this.CNH}\nCPF: {this.CPF}";
+            return $"{this.Id}\n{base.ToString()}\nCNH: {this.CNH}\nCPF: {this.CPF}";
         }
     }
 }

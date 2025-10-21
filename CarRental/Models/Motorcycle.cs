@@ -37,5 +37,13 @@ namespace CarRental.Models
             this.EngineCapacity = engine;
             this.NumberOfPassengers = passengers;
         }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()}\nEngine Capacity: {this.EngineCapacity}" +
+                $"\nMax. Number of Passengers: {this.NumberOfPassengers}" +
+                $"\nDaily Cost: { this.DailyCost}" +
+                $"\nAvailability: " + (this.GetAvailability() ? "Yes" : "No");
+        }
     }
 }

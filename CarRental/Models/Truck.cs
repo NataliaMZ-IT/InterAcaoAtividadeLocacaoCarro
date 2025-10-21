@@ -22,7 +22,7 @@ namespace CarRental.Models
             int year,
             double dailyCost,
             int load,
-            int axle
+            int axles
             ) 
         : base(
             model, 
@@ -35,7 +35,15 @@ namespace CarRental.Models
             )
         {
             this.LoadCapacity = load;
-            this.Axles = axle;
+            this.Axles = axles;
+        }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()}\nLoad Capacity: {this.LoadCapacity}" +
+                $"\nNumber of Axles: {this.Axles}" +
+                $"\nDaily Cost: {this.DailyCost}" +
+                $"\nAvailability: " + (this.GetAvailability() ? "Yes" : "No");
         }
     }
 }

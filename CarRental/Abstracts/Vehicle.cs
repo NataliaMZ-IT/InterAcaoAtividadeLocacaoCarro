@@ -10,7 +10,7 @@ namespace CarRental.Abstracts
 {
     public abstract class Vehicle
     {
-        private Guid id {  get; set; } = Guid.NewGuid();
+        private Guid Id {  get; set; } = Guid.NewGuid();
         private string Model {  get; set; }
         private string Make {  get; set; }
         private string LicensePlate { get; set; }
@@ -37,6 +37,30 @@ namespace CarRental.Abstracts
             Color = color;
             Year = year;
             DailyCost = dailyCost;
+        }
+
+        public string GetLicensePlate()
+        {
+            return LicensePlate;
+        }
+
+        public bool GetAvailability()
+        {
+            return IsAvailable;
+        }
+
+        public void ChangeColor(string color)
+        {
+            this.Color = color;
+        }
+
+        public override string ToString()
+        {
+            return $"{this.Id}" +
+                $"\nVehicle Model: {this.Make} {this.Model} {this.Year}" +
+                $"\nVehicle Kind: {this.Kind}" +
+                $"\nLicense Plate: {this.LicensePlate}" +
+                $"\nColor: {this.Color}";
         }
     }
 }

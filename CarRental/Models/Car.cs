@@ -37,5 +37,13 @@ namespace CarRental.Models
             this.ManualGearbox = gearbox;
             this.NumberOfPassengers = passengers;
         }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()}\nType of Gearbox: " + (this.ManualGearbox ? "Manual" : "Automatic") +
+                $"\nMax. Number of Passengers: {this.NumberOfPassengers}" +
+                $"\nDaily Cost: {this.DailyCost}" +
+                $"\nAvailability: " + (this.GetAvailability() ? "Yes" : "No");
+        }
     }
 }

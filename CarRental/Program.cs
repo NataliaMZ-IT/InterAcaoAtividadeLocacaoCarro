@@ -1,6 +1,7 @@
 ﻿// Locação de Veículos
 using CarRental.Abstracts;
 using CarRental.Entities;
+using CarRental.Enumerators;
 using CarRental.Models;
 
 RentalCompany rentalCompany = new RentalCompany();
@@ -157,6 +158,138 @@ void CustomerMenu(int option)
             break;
         default:
             Console.WriteLine("Invalid option! Try again.");
+            CustomerMenu(Menu.Display("\n=== Customer Menu ===", customerOptions));
+            break;
+    }
+}
+
+void RegisterVehicle()
+{
+    Console.Write("Inform the vehicle's model: ");
+    string model = Console.ReadLine() ?? "";
+    Console.Write("Inform the vehicle's make: ");
+    string make = Console.ReadLine() ?? "";
+    Console.Write("Inform the vehicle's license plate: ");
+    string licensePlate = Console.ReadLine() ?? "";
+    Console.Write("Inform the vehicle's color: ");
+    string color = Console.ReadLine() ?? "";
+    Console.Write("Inform the vehicle's year: ");
+    int year = int.Parse(Console.ReadLine() ?? "");
+    Console.Write("Inform the vehicle's daily cost: ");
+    double dailyCost = double.Parse(Console.ReadLine() ?? "");
+
+    Console.WriteLine("What kind of vehicle is being registered? (0 for Car, 1 for Truck, 2 for Motorcycle)");
+    int kind = int.Parse(Console.ReadLine() ?? "0");
+    if (kind == 0)
+    {
+        bool gearbox;
+        Console.WriteLine("Does the vehicle have a manual gearbox? (1 - yes, 2 - no)");
+        if (int.Parse(Console.ReadLine() ?? "2") == 2)
+        {
+            gearbox = false;
+        }
+        else
+        {
+            gearbox = true;
+        }
+        Console.Write("Inform the number of passengers the vehicle can support: ");
+        int passengers = int.Parse(Console.ReadLine() ?? "2");
+
+        var vehicle = new Car(model, make, licensePlate, Kind.Car, color, year, dailyCost, gearbox, passengers);
+        rentalCompany.Vehicles.Add(vehicle);
+    }
+    else if (kind == 1)
+    {
+        Console.Write("Inform the vehicle's load capacity: ");
+        int load = int.Parse(Console.ReadLine() ?? "0");
+        Console.Write("Inform the number of axles the vehicle has: ");
+        int axles = int.Parse(Console.ReadLine() ?? "1");
+
+        var vehicle = new Truck(model, make, licensePlate, Kind.Truck, color, year, dailyCost, load, axles);
+        rentalCompany.Vehicles.Add(vehicle);
+    }
+    else if (kind == 2)
+    {
+        Console.Write("Inform the vehicle's engine capacity: ");
+        int engine = int.Parse(Console.ReadLine() ??  "0");
+        Console.Write("Inform the number of passengers the vehicle can support: ");
+        int passengers = int.Parse(Console.ReadLine() ?? "1");
+
+        var vehicle = new Motorcycle(model, make, licensePlate, Kind.Motorcycle, color, year, dailyCost, engine, passengers);
+        rentalCompany.Vehicles.Add(vehicle);
+    }
+}
+
+void ListVehicles()
+{
+    Console.WriteLine("\n=== Vehicle List ===");
+    foreach (var vehicle in rentalCompany.Vehicles)
+    {
+        Console.WriteLine(vehicle);
+    }
+}
+
+Vehicle? FindVehicleByLicensePlate(string licensePlate)
+{
+    return rentalCompany.Vehicles.Find(v => v.GetLicensePlate() == licensePlate);
+}
+
+Vehicle? UpdateColor()
+{
+    Console.WriteLine("Inform the license plate of the vehicle that is to be modified: ");
+    string licensePlate = Console.ReadLine() ?? "";
+    var vehicle = FindVehicleByLicensePlate(licensePlate);
+    if (vehicle is not null)
+    {
+        Console.Write("Inform the new color of the vehicle: ");
+        string color = Console.ReadLine() ?? "";
+        vehicle.ChangeColor(color);
+        Console.WriteLine("Vehicle's color was sucessfully changed.");
+    }
+    else
+    {
+        Console.WriteLine("Vehicle not found!");
+    }
+    return vehicle;
+}
+
+void DeleteVehicle()
+{
+    Console.WriteLine("Inform the license plate of the vehicle that is to be removed: ");
+    string licensePlate = Console.ReadLine() ?? "";
+    var vehicle = FindVehicleByLicensePlate(licensePlate);
+    if (vehicle is not null)
+    {
+        rentalCompany.Vehicles.Remove(vehicle);
+        Console.WriteLine("Vehicle sucessfully removed.");
+    }
+    else
+    {
+        Console.WriteLine("Vehicle not found!");
+    }
+}
+
+void VehicleMenu(int option)
+{
+    switch (option)
+    {
+        case 1:
+            RegisterVehicle();
+            break;
+        case 2:
+            ListVehicles();
+            break;
+        case 3:
+            UpdateColor();
+            break;
+        case 4:
+            DeleteVehicle();
+            break;
+        case 5:
+            break;
+        default:
+            Console.WriteLine("Invalid option! Try again.");
+            VehicleMenu(Menu.Display("\n=== Vehicle Menu ===", vehicleOptions));
             break;
     }
 }
@@ -173,6 +306,7 @@ do
             break;
         case 2:
             int vehicleChoice = Menu.Display("\n=== Vehicle Menu ===", vehicleOptions);
+            VehicleMenu(vehicleChoice);
             break;
         case 3:
             int rentalChoice = Menu.Display("\n=== Rental Menu ===", rentalOptions);
